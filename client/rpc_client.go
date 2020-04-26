@@ -7,7 +7,6 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/Allenxuxu/mMicro/broker"
 	"github.com/Allenxuxu/mMicro/client/selector"
 	"github.com/Allenxuxu/mMicro/codec"
@@ -18,6 +17,7 @@ import (
 	"github.com/Allenxuxu/mMicro/transport"
 	"github.com/Allenxuxu/mMicro/util/buf"
 	"github.com/Allenxuxu/mMicro/util/pool"
+	"github.com/google/uuid"
 )
 
 type rpcClient struct {
