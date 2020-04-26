@@ -17,7 +17,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/Allenxuxu/mMicro/codec/json"
 	merr "github.com/Allenxuxu/mMicro/errors"
 	"github.com/Allenxuxu/mMicro/registry"
@@ -25,6 +24,7 @@ import (
 	maddr "github.com/Allenxuxu/mMicro/util/addr"
 	mnet "github.com/Allenxuxu/mMicro/util/net"
 	mls "github.com/Allenxuxu/mMicro/util/tls"
+	"github.com/google/uuid"
 	"golang.org/x/net/http2"
 )
 
@@ -66,7 +66,7 @@ type httpEvent struct {
 
 var (
 	DefaultPath      = "/"
-	DefaultAddress   = "127.0.0.1:0"
+	DefaultAddress   = ":0"
 	serviceName      = "micro.http.broker"
 	broadcastVersion = "ff.http.broadcast"
 	registerTTL      = time.Minute

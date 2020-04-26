@@ -4,14 +4,12 @@ import (
 	"os"
 	"os/signal"
 	"runtime"
-	"strings"
-	"sync"
 	"syscall"
 
 	"github.com/Allenxuxu/mMicro/client"
 	"github.com/Allenxuxu/mMicro/debug/service/handler"
 	"github.com/Allenxuxu/mMicro/debug/stats"
-	"github.com/Allenxuxu/mMicro/debug/trace"
+	memTrace "github.com/Allenxuxu/mMicro/debug/trace/memory"
 	"github.com/Allenxuxu/mMicro/logger"
 	"github.com/Allenxuxu/mMicro/server"
 	"github.com/Allenxuxu/mMicro/util/wrapper"
@@ -19,8 +17,6 @@ import (
 
 type service struct {
 	opts Options
-
-	once sync.Once
 }
 
 func newService(opts ...Option) Service {
@@ -31,12 +27,12 @@ func newService(opts ...Option) Service {
 	serviceName := options.Server.Options().Name
 
 	// wrap client to inject From-Service header on any calls
-	options.Client = wrapper.TraceCall(serviceName, trace.DefaultTracer, options.Client)
+	options.Client = wrapper.TraceCall(serviceName, memTrace.NewTracer(), options.Client)
 
 	// wrap the server to provide handler stats
 	options.Server.Init(
 		server.WrapHandler(wrapper.HandlerStats(stats.DefaultStats)),
-		server.WrapHandler(wrapper.TraceHandler(trace.DefaultTracer)),
+		server.WrapHandler(wrapper.TraceHandler(memTrace.NewTracer())),
 	)
 
 	// set opts
@@ -57,23 +53,6 @@ func (s *service) Init(opts ...Option) {
 	for _, o := range opts {
 		o(&s.opts)
 	}
-
-	s.once.Do(func() {
-		// setup the plugins
-		for _, p := range strings.Split(os.Getenv("MICRO_PLUGIN"), ",") {
-			if len(p) == 0 {
-				continue
-			}
-		}
-
-		// TODO: replace Cmd.Init with config.Load
-		// Right now we're just going to load a token
-		// May need to re-read value on change
-		// TODO: should be scoped to micro/auth/token
-		// if tk, _ := config.Get("token"); len(tk) > 0 {
-		// 	s.opts.Auth.Init(auth.ServiceToken(tk))
-		// }
-	})
 }
 
 func (s *service) Options() Options {

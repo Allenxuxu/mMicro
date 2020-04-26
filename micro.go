@@ -30,18 +30,6 @@ type Service interface {
 	String() string
 }
 
-// Function is a one time executing Service
-type Function interface {
-	// Inherits Service interface
-	Service
-	// Done signals to complete execution
-	Done() error
-	// Handle registers an RPC handler
-	Handle(v interface{}) error
-	// Subscribe registers a subscriber
-	Subscribe(topic string, v interface{}) error
-}
-
 /*
 // Type Event is a future type for acting on asynchronous events
 type Event interface {

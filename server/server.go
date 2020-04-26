@@ -8,10 +8,10 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/Allenxuxu/mMicro/codec"
 	"github.com/Allenxuxu/mMicro/logger"
 	"github.com/Allenxuxu/mMicro/registry"
+	"github.com/google/uuid"
 )
 
 // Server is a simple micro server abstraction

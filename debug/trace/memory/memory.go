@@ -4,9 +4,9 @@ import (
 	"context"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/Allenxuxu/mMicro/debug/trace"
 	"github.com/Allenxuxu/mMicro/util/ring"
+	"github.com/google/uuid"
 )
 
 type Tracer struct {
@@ -24,7 +24,7 @@ func (t *Tracer) Read(opts ...trace.ReadOption) ([]*trace.Span, error) {
 
 	sp := t.buffer.Get(t.buffer.Size())
 
-	var spans []*trace.Span
+	spans := make([]*trace.Span, 0, len(sp))
 
 	for _, span := range sp {
 		val := span.Value.(*trace.Span)

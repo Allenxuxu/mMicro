@@ -517,12 +517,12 @@ func (s *rpcServer) Register() error {
 
 	s.RLock()
 	rsvc := s.rsvc
-	config := s.Options()
+	options := s.Options()
 	s.RUnlock()
 
 	if rsvc != nil {
-		rOpts := []registry.RegisterOption{registry.RegisterTTL(config.RegisterTTL)}
-		if err := config.Registry.Register(rsvc, rOpts...); err != nil {
+		rOpts := []registry.RegisterOption{registry.RegisterTTL(options.RegisterTTL)}
+		if err := options.Registry.Register(rsvc, rOpts...); err != nil {
 			return err
 		}
 
@@ -536,10 +536,10 @@ func (s *rpcServer) Register() error {
 	// check the advertise address first
 	// if it exists then use it, otherwise
 	// use the address
-	if len(config.Advertise) > 0 {
-		advt = config.Advertise
+	if len(options.Advertise) > 0 {
+		advt = options.Advertise
 	} else {
-		advt = config.Address
+		advt = options.Address
 	}
 
 	if cnt := strings.Count(advt, ":"); cnt >= 1 {
@@ -562,7 +562,7 @@ func (s *rpcServer) Register() error {
 	}
 
 	// make copy of metadata
-	md := metadata.Copy(config.Metadata)
+	md := metadata.Copy(options.Metadata)
 
 	// mq-rpc(eg. nats) doesn't need the port. its addr is queue name.
 	if port != "" {
@@ -571,15 +571,15 @@ func (s *rpcServer) Register() error {
 
 	// register service
 	node := &registry.Node{
-		Id:       config.Name + "-" + config.Id,
+		Id:       options.Name + "-" + options.Id,
 		Address:  addr,
 		Metadata: md,
 	}
 
-	node.Metadata["transport"] = config.Transport.String()
-	node.Metadata["broker"] = config.Broker.String()
+	node.Metadata["transport"] = options.Transport.String()
+	node.Metadata["broker"] = options.Broker.String()
 	node.Metadata["server"] = s.String()
-	node.Metadata["registry"] = config.Registry.String()
+	node.Metadata["registry"] = options.Registry.String()
 	node.Metadata["protocol"] = "mucp"
 
 	s.RLock()
@@ -618,8 +618,8 @@ func (s *rpcServer) Register() error {
 	}
 
 	service := &registry.Service{
-		Name:      config.Name,
-		Version:   config.Version,
+		Name:      options.Name,
+		Version:   options.Version,
 		Nodes:     []*registry.Node{node},
 		Endpoints: endpoints,
 	}
@@ -631,14 +631,14 @@ func (s *rpcServer) Register() error {
 
 	if !registered {
 		if logger.V(logger.DebugLevel, logger.DefaultLogger) {
-			log.Debugf("Registry [%s] Registering node: %s", config.Registry.String(), node.Id)
+			log.Debugf("Registry [%s] Registering node: %s", options.Registry.String(), node.Id)
 		}
 	}
 
 	// create registry options
-	rOpts := []registry.RegisterOption{registry.RegisterTTL(config.RegisterTTL)}
+	rOpts := []registry.RegisterOption{registry.RegisterTTL(options.RegisterTTL)}
 
-	if err := config.Registry.Register(service, rOpts...); err != nil {
+	if err := options.Registry.Register(service, rOpts...); err != nil {
 		return err
 	}
 
@@ -660,7 +660,7 @@ func (s *rpcServer) Register() error {
 	// router can exchange messages
 	if s.opts.Router != nil {
 		// subscribe to the topic with own name
-		sub, err := s.opts.Broker.Subscribe(config.Name, s.HandleEvent)
+		sub, err := s.opts.Broker.Subscribe(options.Name, s.HandleEvent)
 		if err != nil {
 			return err
 		}
@@ -684,7 +684,7 @@ func (s *rpcServer) Register() error {
 			opts = append(opts, broker.DisableAutoAck())
 		}
 
-		sub, err := config.Broker.Subscribe(sb.Topic(), s.HandleEvent, opts...)
+		sub, err := options.Broker.Subscribe(sb.Topic(), s.HandleEvent, opts...)
 		if err != nil {
 			return err
 		}
@@ -790,16 +790,16 @@ func (s *rpcServer) Start() error {
 	}
 	s.RUnlock()
 
-	config := s.Options()
+	options := s.Options()
 
 	// start listening on the transport
-	ts, err := config.Transport.Listen(config.Address)
+	ts, err := options.Transport.Listen(options.Address)
 	if err != nil {
 		return err
 	}
 
 	if logger.V(logger.DebugLevel, logger.DefaultLogger) {
-		log.Debugf("Transport [%s] Listening on %s", config.Transport.String(), ts.Addr())
+		log.Debugf("Transport [%s] Listening on %s", options.Transport.String(), ts.Addr())
 	}
 
 	// swap address
@@ -808,10 +808,10 @@ func (s *rpcServer) Start() error {
 	s.opts.Address = ts.Addr()
 	s.Unlock()
 
-	bname := config.Broker.String()
+	bname := options.Broker.String()
 
 	// connect to the broker
-	if err := config.Broker.Connect(); err != nil {
+	if err := options.Broker.Connect(); err != nil {
 		if logger.V(logger.ErrorLevel, logger.DefaultLogger) {
 			log.Errorf("Broker [%s] connect error: %v", bname, err)
 		}
@@ -819,19 +819,19 @@ func (s *rpcServer) Start() error {
 	}
 
 	if logger.V(logger.DebugLevel, logger.DefaultLogger) {
-		log.Debugf("Broker [%s] Connected to %s", bname, config.Broker.Address())
+		log.Debugf("Broker [%s] Connected to %s", bname, options.Broker.Address())
 	}
 
 	// use RegisterCheck func before register
 	if err = s.opts.RegisterCheck(s.opts.Context); err != nil {
 		if logger.V(logger.ErrorLevel, logger.DefaultLogger) {
-			log.Errorf("Server %s-%s register check error: %s", config.Name, config.Id, err)
+			log.Errorf("Server %s-%s register check error: %s", options.Name, options.Id, err)
 		}
 	} else {
 		// announce self to the world
 		if err = s.Register(); err != nil {
 			if logger.V(logger.ErrorLevel, logger.DefaultLogger) {
-				log.Errorf("Server %s-%s register error: %s", config.Name, config.Id, err)
+				log.Errorf("Server %s-%s register error: %s", options.Name, options.Id, err)
 			}
 		}
 	}
@@ -889,23 +889,23 @@ func (s *rpcServer) Start() error {
 				rerr := s.opts.RegisterCheck(s.opts.Context)
 				if rerr != nil && registered {
 					if logger.V(logger.ErrorLevel, logger.DefaultLogger) {
-						log.Errorf("Server %s-%s register check error: %s, deregister it", config.Name, config.Id, err)
+						log.Errorf("Server %s-%s register check error: %s, deregister it", options.Name, options.Id, err)
 					}
 					// deregister self in case of error
 					if err := s.Deregister(); err != nil {
 						if logger.V(logger.ErrorLevel, logger.DefaultLogger) {
-							log.Errorf("Server %s-%s deregister error: %s", config.Name, config.Id, err)
+							log.Errorf("Server %s-%s deregister error: %s", options.Name, options.Id, err)
 						}
 					}
 				} else if rerr != nil && !registered {
 					if logger.V(logger.ErrorLevel, logger.DefaultLogger) {
-						log.Errorf("Server %s-%s register check error: %s", config.Name, config.Id, err)
+						log.Errorf("Server %s-%s register check error: %s", options.Name, options.Id, err)
 					}
 					continue
 				}
 				if err := s.Register(); err != nil {
 					if logger.V(logger.ErrorLevel, logger.DefaultLogger) {
-						log.Errorf("Server %s-%s register error: %s", config.Name, config.Id, err)
+						log.Errorf("Server %s-%s register error: %s", options.Name, options.Id, err)
 					}
 				}
 			// wait for exit
@@ -923,7 +923,7 @@ func (s *rpcServer) Start() error {
 			// deregister self
 			if err := s.Deregister(); err != nil {
 				if logger.V(logger.ErrorLevel, logger.DefaultLogger) {
-					log.Errorf("Server %s-%s deregister error: %s", config.Name, config.Id, err)
+					log.Errorf("Server %s-%s deregister error: %s", options.Name, options.Id, err)
 				}
 			}
 		}
@@ -941,10 +941,10 @@ func (s *rpcServer) Start() error {
 		ch <- ts.Close()
 
 		if logger.V(logger.DebugLevel, logger.DefaultLogger) {
-			log.Debugf("Broker [%s] Disconnected from %s", bname, config.Broker.Address())
+			log.Debugf("Broker [%s] Disconnected from %s", bname, options.Broker.Address())
 		}
 		// disconnect the broker
-		if err := config.Broker.Disconnect(); err != nil {
+		if err := options.Broker.Disconnect(); err != nil {
 			if logger.V(logger.ErrorLevel, logger.DefaultLogger) {
 				log.Errorf("Broker [%s] Disconnect error: %v", bname, err)
 			}
