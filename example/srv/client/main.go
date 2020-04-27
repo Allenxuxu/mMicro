@@ -17,7 +17,7 @@ func main() {
 	)
 	service.Init()
 
-	p := micro.NewPublisher("topic.example", service.Client())
+	p := micro.NewEvent("topic.example", service.Client())
 
 	fmt.Println("\n--- Publisher example ---")
 	pub(p)
