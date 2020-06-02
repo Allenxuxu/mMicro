@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/Allenxuxu/mMicro/transport/http"
+
 	"github.com/Allenxuxu/mMicro/broker"
 	"github.com/Allenxuxu/mMicro/client"
 	"github.com/Allenxuxu/mMicro/registry"
@@ -37,7 +39,7 @@ func NewOptions(opts ...Option) Options {
 		Client:    client.DefaultClient,
 		Server:    server.DefaultServer,
 		Registry:  registry.DefaultRegistry,
-		Transport: transport.DefaultTransport,
+		Transport: http.NewTransport(),
 		Context:   context.Background(),
 	}
 

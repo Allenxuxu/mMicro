@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/Allenxuxu/mMicro/transport/http"
+
 	"github.com/Allenxuxu/mMicro/broker"
 	"github.com/Allenxuxu/mMicro/client/selector"
 	"github.com/Allenxuxu/mMicro/codec"
@@ -106,7 +108,7 @@ func NewOptions(options ...Option) Options {
 		Broker:    broker.DefaultBroker,
 		Selector:  selector.DefaultSelector,
 		Registry:  registry.DefaultRegistry,
-		Transport: transport.DefaultTransport,
+		Transport: http.NewTransport(),
 	}
 
 	for _, o := range options {

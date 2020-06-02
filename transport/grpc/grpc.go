@@ -7,14 +7,12 @@ import (
 	"net"
 
 	"github.com/Allenxuxu/mMicro/transport"
+	pb "github.com/Allenxuxu/mMicro/transport/grpc/proto"
 	maddr "github.com/Allenxuxu/mMicro/util/addr"
 	mnet "github.com/Allenxuxu/mMicro/util/net"
 	mls "github.com/Allenxuxu/mMicro/util/tls"
-
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
-
-	pb "github.com/Allenxuxu/mMicro/transport/grpc/proto"
 )
 
 type grpcTransport struct {

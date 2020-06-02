@@ -6,6 +6,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Allenxuxu/mMicro/transport/http"
+
 	"github.com/Allenxuxu/mMicro/broker"
 	"github.com/Allenxuxu/mMicro/codec"
 	"github.com/Allenxuxu/mMicro/debug/trace"
@@ -67,7 +69,7 @@ func newOptions(opt ...Option) Options {
 	}
 
 	if opts.Transport == nil {
-		opts.Transport = transport.DefaultTransport
+		opts.Transport = http.NewTransport()
 	}
 
 	if opts.RegisterCheck == nil {
@@ -209,7 +211,7 @@ func TLSConfig(t *tls.Config) Option {
 		// set the default transport if one is not
 		// already set. Required for Init call below.
 		if o.Transport == nil {
-			o.Transport = transport.DefaultTransport
+			o.Transport = http.NewTransport()
 		}
 
 		// set the transport tls
