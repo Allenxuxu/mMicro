@@ -137,10 +137,13 @@ var (
 	DefaultRegisterInterval        = time.Second * 30
 	DefaultRegisterTTL             = time.Minute
 
-	// NewServer creates a new server
-	NewServer func(...Option) Server = newRpcServer
-	log                              = logger.NewHelper(logger.DefaultLogger).WithFields(map[string]interface{}{"service": "server"})
+	log = logger.NewHelper(logger.DefaultLogger).WithFields(map[string]interface{}{"service": "server"})
 )
+
+// NewServer returns a micro server interface
+func NewServer(opts ...Option) Server {
+	return newRpcServer(opts...)
+}
 
 // DefaultOptions returns config options for the default service
 func DefaultOptions() Options {
