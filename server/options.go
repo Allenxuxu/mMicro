@@ -6,15 +6,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/Allenxuxu/mMicro/registry/mdns"
-
-	"github.com/Allenxuxu/mMicro/transport/http"
-
 	"github.com/Allenxuxu/mMicro/broker"
+	httpBroker "github.com/Allenxuxu/mMicro/broker/http"
 	"github.com/Allenxuxu/mMicro/codec"
 	"github.com/Allenxuxu/mMicro/debug/trace"
 	"github.com/Allenxuxu/mMicro/registry"
+	"github.com/Allenxuxu/mMicro/registry/mdns"
 	"github.com/Allenxuxu/mMicro/transport"
+	"github.com/Allenxuxu/mMicro/transport/http"
 )
 
 type Options struct {
@@ -63,7 +62,7 @@ func newOptions(opt ...Option) Options {
 	}
 
 	if opts.Broker == nil {
-		opts.Broker = broker.DefaultBroker
+		opts.Broker = httpBroker.NewBroker()
 	}
 
 	if opts.Registry == nil {

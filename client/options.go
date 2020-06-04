@@ -4,15 +4,14 @@ import (
 	"context"
 	"time"
 
-	"github.com/Allenxuxu/mMicro/registry/mdns"
-
-	"github.com/Allenxuxu/mMicro/transport/http"
-
 	"github.com/Allenxuxu/mMicro/broker"
+	httpBroker "github.com/Allenxuxu/mMicro/broker/http"
 	"github.com/Allenxuxu/mMicro/client/selector"
 	"github.com/Allenxuxu/mMicro/codec"
 	"github.com/Allenxuxu/mMicro/registry"
+	"github.com/Allenxuxu/mMicro/registry/mdns"
 	"github.com/Allenxuxu/mMicro/transport"
+	"github.com/Allenxuxu/mMicro/transport/http"
 )
 
 type Options struct {
@@ -107,7 +106,7 @@ func NewOptions(options ...Option) Options {
 		},
 		PoolSize:  DefaultPoolSize,
 		PoolTTL:   DefaultPoolTTL,
-		Broker:    broker.DefaultBroker,
+		Broker:    httpBroker.NewBroker(),
 		Selector:  selector.DefaultSelector,
 		Registry:  mdns.NewRegistry(),
 		Transport: http.NewTransport(),

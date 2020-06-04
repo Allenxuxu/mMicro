@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	httpBroker "github.com/Allenxuxu/mMicro/broker/http"
+
 	"github.com/Allenxuxu/mMicro/registry/mdns"
 
 	"github.com/Allenxuxu/mMicro/transport/http"
@@ -42,7 +44,7 @@ type Options struct {
 
 func newOptions(opts ...Option) Options {
 	opt := Options{
-		Broker:    broker.DefaultBroker,
+		Broker:    httpBroker.NewBroker(),
 		Client:    client.NewClient(),
 		Server:    server.NewServer(),
 		Registry:  mdns.NewRegistry(),
