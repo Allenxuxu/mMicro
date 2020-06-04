@@ -7,7 +7,6 @@ import (
 	micro "github.com/Allenxuxu/mMicro"
 	example "github.com/Allenxuxu/mMicro/example/srv/proto/hello"
 	"github.com/Allenxuxu/mMicro/metadata"
-	"github.com/Allenxuxu/mMicro/server"
 	"github.com/Allenxuxu/mMicro/transport/grpc"
 )
 
@@ -19,7 +18,7 @@ type Example struct{}
 func (e *Example) Call(ctx context.Context, req *example.Request, rsp *example.Response) error {
 	md, _ := metadata.FromContext(ctx)
 	log.Printf("Received Example.Call request with metadata: %v", md)
-	rsp.Msg = server.DefaultOptions().Id + ": Hello " + req.Name
+	rsp.Msg = ": Hello " + req.Name
 	return nil
 }
 

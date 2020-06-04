@@ -45,7 +45,7 @@ func newOptions(opts ...Option) Options {
 		Broker:    broker.DefaultBroker,
 		Config:    config.DefaultConfig,
 		Client:    client.NewClient(),
-		Server:    server.DefaultServer,
+		Server:    server.NewServer(),
 		Registry:  registry.DefaultRegistry,
 		Transport: http.NewTransport(),
 		Context:   context.Background(),
