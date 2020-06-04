@@ -218,7 +218,7 @@ func NewSelector(opts ...selector.Option) selector.Selector {
 	// try get client from the context
 	c, ok := options.Context.Value(clientKey{}).(client.Client)
 	if !ok {
-		c = client.DefaultClient
+		c = client.NewClient()
 	}
 
 	// get the router from env vars if its a remote service

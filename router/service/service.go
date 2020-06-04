@@ -33,8 +33,8 @@ func NewRouter(opts ...router.Option) router.Router {
 		o(&options)
 	}
 
-	// NOTE: might need some client opts here
-	cli := client.DefaultClient
+	// TODO: might need some client opts here
+	cli := client.NewClient()
 
 	// set options client
 	if options.Client != nil {

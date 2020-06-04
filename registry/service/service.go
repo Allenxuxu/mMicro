@@ -6,7 +6,6 @@ import (
 	"time"
 
 	"github.com/Allenxuxu/mMicro/client"
-	"github.com/Allenxuxu/mMicro/client/grpc"
 	"github.com/Allenxuxu/mMicro/registry"
 	pb "github.com/Allenxuxu/mMicro/registry/service/proto"
 )
@@ -180,7 +179,7 @@ func NewRegistry(opts ...registry.Option) registry.Registry {
 	mReg := registry.NewRegistry()
 
 	// create new client with mdns
-	cli := grpc.NewClient(
+	cli := client.NewClient(
 		client.Registry(mReg),
 	)
 

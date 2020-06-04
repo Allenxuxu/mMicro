@@ -86,7 +86,7 @@ func (d *debugClient) streamLogs(lg *logStream, stream pb.Debug_LogService) {
 // NewClient provides a debug client
 func NewClient(name string) *debugClient {
 	// create default client
-	cli := client.DefaultClient
+	cli := client.NewClient()
 
 	return &debugClient{
 		Client: pb.NewDebugService(name, cli),

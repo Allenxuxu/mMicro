@@ -81,7 +81,7 @@ func New(service, endpoint string, req interface{}, s Stream) server.Stream {
 		Stream: s,
 		request: &request{
 			context: s.Context(),
-			Request: client.DefaultClient.NewRequest(service, endpoint, req),
+			Request: client.NewClient().NewRequest(service, endpoint, req),
 		},
 	}
 }
