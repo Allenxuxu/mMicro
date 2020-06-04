@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/Allenxuxu/mMicro/registry/mdns"
+
 	"github.com/Allenxuxu/mMicro/transport/http"
 
 	"github.com/Allenxuxu/mMicro/broker"
@@ -43,7 +45,7 @@ func newOptions(opts ...Option) Options {
 		Broker:    broker.DefaultBroker,
 		Client:    client.NewClient(),
 		Server:    server.NewServer(),
-		Registry:  registry.DefaultRegistry,
+		Registry:  mdns.NewRegistry(),
 		Transport: http.NewTransport(),
 		Context:   context.Background(),
 		Signal:    true,

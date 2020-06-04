@@ -7,6 +7,8 @@ import (
 	"sort"
 	"sync"
 
+	"github.com/Allenxuxu/mMicro/registry/mdns"
+
 	"github.com/Allenxuxu/mMicro/client"
 	"github.com/Allenxuxu/mMicro/client/selector"
 	"github.com/Allenxuxu/mMicro/registry"
@@ -203,7 +205,7 @@ func NewSelector(opts ...selector.Option) selector.Selector {
 
 	// set default registry if not set
 	if options.Registry == nil {
-		options.Registry = registry.DefaultRegistry
+		options.Registry = mdns.NewRegistry()
 	}
 
 	// try get router from the context

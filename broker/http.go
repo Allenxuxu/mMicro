@@ -17,6 +17,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Allenxuxu/mMicro/registry/mdns"
+
 	"github.com/Allenxuxu/mMicro/codec/json"
 	merr "github.com/Allenxuxu/mMicro/errors"
 	"github.com/Allenxuxu/mMicro/registry"
@@ -111,7 +113,7 @@ func newHttpBroker(opts ...Option) Broker {
 	options := Options{
 		Codec:    json.Marshaler{},
 		Context:  context.TODO(),
-		Registry: registry.DefaultRegistry,
+		Registry: mdns.NewRegistry(),
 	}
 
 	for _, o := range opts {
@@ -421,7 +423,7 @@ func (h *httpBroker) Connect() error {
 	// get registry
 	reg := h.opts.Registry
 	if reg == nil {
-		reg = registry.DefaultRegistry
+		reg = mdns.NewRegistry()
 	}
 	// set cache
 	h.r = cache.New(reg)
@@ -484,7 +486,7 @@ func (h *httpBroker) Init(opts ...Option) error {
 	// get registry
 	reg := h.opts.Registry
 	if reg == nil {
-		reg = registry.DefaultRegistry
+		reg = mdns.NewRegistry()
 	}
 
 	// get cache

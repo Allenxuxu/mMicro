@@ -6,6 +6,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/Allenxuxu/mMicro/registry/mdns"
+
 	"github.com/Allenxuxu/mMicro/transport/http"
 
 	"github.com/Allenxuxu/mMicro/broker"
@@ -65,7 +67,7 @@ func newOptions(opt ...Option) Options {
 	}
 
 	if opts.Registry == nil {
-		opts.Registry = registry.DefaultRegistry
+		opts.Registry = mdns.NewRegistry()
 	}
 
 	if opts.Transport == nil {

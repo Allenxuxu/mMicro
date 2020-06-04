@@ -1,9 +1,10 @@
 package router
 
 import (
-	"github.com/google/uuid"
 	"github.com/Allenxuxu/mMicro/client"
 	"github.com/Allenxuxu/mMicro/registry"
+	"github.com/Allenxuxu/mMicro/registry/mdns"
+	"github.com/google/uuid"
 )
 
 // Options are router options
@@ -79,7 +80,7 @@ func DefaultOptions() Options {
 		Id:        uuid.New().String(),
 		Address:   DefaultAddress,
 		Network:   DefaultNetwork,
-		Registry:  registry.DefaultRegistry,
+		Registry:  mdns.NewRegistry(),
 		Advertise: AdvertiseLocal,
 	}
 }

@@ -4,6 +4,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/Allenxuxu/mMicro/registry/mdns"
+
 	"github.com/Allenxuxu/mMicro/transport/http"
 
 	"github.com/Allenxuxu/mMicro/broker"
@@ -107,7 +109,7 @@ func NewOptions(options ...Option) Options {
 		PoolTTL:   DefaultPoolTTL,
 		Broker:    broker.DefaultBroker,
 		Selector:  selector.DefaultSelector,
-		Registry:  registry.DefaultRegistry,
+		Registry:  mdns.NewRegistry(),
 		Transport: http.NewTransport(),
 	}
 

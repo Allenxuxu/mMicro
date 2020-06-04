@@ -3,6 +3,8 @@ package selector
 import (
 	"time"
 
+	"github.com/Allenxuxu/mMicro/registry/mdns"
+
 	"github.com/Allenxuxu/mMicro/registry"
 	"github.com/Allenxuxu/mMicro/registry/cache"
 )
@@ -97,7 +99,7 @@ func NewSelector(opts ...Option) Selector {
 	}
 
 	if sopts.Registry == nil {
-		sopts.Registry = registry.DefaultRegistry
+		sopts.Registry = mdns.NewRegistry()
 	}
 
 	s := &registrySelector{

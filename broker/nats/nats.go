@@ -7,10 +7,11 @@ import (
 	"strings"
 	"sync"
 
+	"github.com/Allenxuxu/mMicro/registry/mdns"
+
 	"github.com/Allenxuxu/mMicro/broker"
 	"github.com/Allenxuxu/mMicro/codec/json"
 	"github.com/Allenxuxu/mMicro/logger"
-	"github.com/Allenxuxu/mMicro/registry"
 	nats "github.com/nats-io/nats.go"
 )
 
@@ -306,7 +307,7 @@ func NewBroker(opts ...broker.Option) broker.Broker {
 		// Default codec
 		Codec:    json.Marshaler{},
 		Context:  context.Background(),
-		Registry: registry.DefaultRegistry,
+		Registry: mdns.NewRegistry(),
 	}
 
 	n := &natsBroker{

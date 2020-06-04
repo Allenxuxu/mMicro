@@ -8,9 +8,10 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/Allenxuxu/mMicro/registry/mdns"
+
 	"github.com/Allenxuxu/mMicro/client/selector"
 	"github.com/Allenxuxu/mMicro/metadata"
-	"github.com/Allenxuxu/mMicro/registry"
 )
 
 // Write sets the status and body on a http ResponseWriter
@@ -47,7 +48,7 @@ func WriteInternalServerError(w http.ResponseWriter, err error) {
 
 func NewRoundTripper(opts ...Option) http.RoundTripper {
 	options := Options{
-		Registry: registry.DefaultRegistry,
+		Registry: mdns.NewRegistry(),
 	}
 	for _, o := range opts {
 		o(&options)

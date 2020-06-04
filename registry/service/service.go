@@ -5,6 +5,8 @@ import (
 	"context"
 	"time"
 
+	"github.com/Allenxuxu/mMicro/registry/mdns"
+
 	"github.com/Allenxuxu/mMicro/client"
 	"github.com/Allenxuxu/mMicro/registry"
 	pb "github.com/Allenxuxu/mMicro/registry/service/proto"
@@ -176,7 +178,7 @@ func NewRegistry(opts ...registry.Option) registry.Registry {
 	}
 
 	// use mdns as a fall back in case its used
-	mReg := registry.NewRegistry()
+	mReg := mdns.NewRegistry()
 
 	// create new client with mdns
 	cli := client.NewClient(
