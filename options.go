@@ -9,7 +9,6 @@ import (
 	"github.com/Allenxuxu/mMicro/broker"
 	"github.com/Allenxuxu/mMicro/client"
 	"github.com/Allenxuxu/mMicro/client/selector"
-	"github.com/Allenxuxu/mMicro/config"
 	"github.com/Allenxuxu/mMicro/debug/profile"
 	"github.com/Allenxuxu/mMicro/debug/trace"
 	"github.com/Allenxuxu/mMicro/registry"
@@ -20,7 +19,6 @@ import (
 // Options for micro service
 type Options struct {
 	Broker    broker.Broker
-	Config    config.Config
 	Client    client.Client
 	Server    server.Server
 	Registry  registry.Registry
@@ -43,7 +41,6 @@ type Options struct {
 func newOptions(opts ...Option) Options {
 	opt := Options{
 		Broker:    broker.DefaultBroker,
-		Config:    config.DefaultConfig,
 		Client:    client.NewClient(),
 		Server:    server.NewServer(),
 		Registry:  registry.DefaultRegistry,
@@ -124,13 +121,6 @@ func Registry(r registry.Registry) Option {
 func Tracer(t trace.Tracer) Option {
 	return func(o *Options) {
 		o.Server.Init(server.Tracer(t))
-	}
-}
-
-// Config sets the config for the service
-func Config(c config.Config) Option {
-	return func(o *Options) {
-		o.Config = c
 	}
 }
 
