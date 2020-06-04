@@ -107,7 +107,7 @@ func NewOptions(options ...Option) Options {
 		PoolSize:  DefaultPoolSize,
 		PoolTTL:   DefaultPoolTTL,
 		Broker:    httpBroker.NewBroker(),
-		Selector:  selector.DefaultSelector,
+		Selector:  selector.NewSelector(),
 		Registry:  mdns.NewRegistry(),
 		Transport: http.NewTransport(),
 	}
