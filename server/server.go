@@ -139,8 +139,3 @@ var (
 func NewServer(opts ...Option) Server {
 	return newRpcServer(opts...)
 }
-
-// NewRouter returns a new router
-func NewRouter() *router {
-	return newRpcRouter()
-}
