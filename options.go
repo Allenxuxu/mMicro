@@ -67,13 +67,6 @@ func Broker(b broker.Broker) Option {
 	}
 }
 
-// Client to be used for service
-func Client(c client.Client) Option {
-	return func(o *Options) {
-		o.Client = c
-	}
-}
-
 // Context specifies a context for the service.
 // Can be used to signal shutdown of the service and for extra option values.
 func Context(ctx context.Context) Option {
@@ -95,13 +88,6 @@ func HandleSignal(b bool) Option {
 func Profile(p profile.Profile) Option {
 	return func(o *Options) {
 		o.Profile = p
-	}
-}
-
-// Server to be used for service
-func Server(s server.Server) Option {
-	return func(o *Options) {
-		o.Server = s
 	}
 }
 
