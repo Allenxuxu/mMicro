@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/micro/cli/v2"
-	"github.com/Allenxuxu/mMicro"
+	micro "github.com/Allenxuxu/mMicro"
 	"github.com/Allenxuxu/mMicro/registry"
+	"github.com/micro/cli/v2"
 )
 
 //Options for web
