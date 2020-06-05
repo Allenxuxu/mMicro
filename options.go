@@ -4,20 +4,17 @@ import (
 	"context"
 	"time"
 
-	httpBroker "github.com/Allenxuxu/mMicro/broker/http"
-
-	"github.com/Allenxuxu/mMicro/registry/mdns"
-
-	"github.com/Allenxuxu/mMicro/transport/http"
-
 	"github.com/Allenxuxu/mMicro/broker"
+	httpBroker "github.com/Allenxuxu/mMicro/broker/http"
 	"github.com/Allenxuxu/mMicro/client"
 	"github.com/Allenxuxu/mMicro/client/selector"
 	"github.com/Allenxuxu/mMicro/debug/profile"
 	"github.com/Allenxuxu/mMicro/debug/trace"
 	"github.com/Allenxuxu/mMicro/registry"
+	"github.com/Allenxuxu/mMicro/registry/mdns"
 	"github.com/Allenxuxu/mMicro/server"
 	"github.com/Allenxuxu/mMicro/transport"
+	"github.com/Allenxuxu/mMicro/transport/http"
 )
 
 // Options for micro service
