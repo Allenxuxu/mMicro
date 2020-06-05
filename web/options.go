@@ -8,7 +8,6 @@ import (
 
 	micro "github.com/Allenxuxu/mMicro"
 	"github.com/Allenxuxu/mMicro/registry"
-	"github.com/micro/cli/v2"
 )
 
 //Options for web
@@ -19,9 +18,6 @@ type Options struct {
 	Metadata  map[string]string
 	Address   string
 	Advertise string
-
-	Action func(*cli.Context)
-	Flags  []cli.Flag
 
 	RegisterTTL      time.Duration
 	RegisterInterval time.Duration
@@ -176,20 +172,6 @@ func Server(srv *http.Server) Option {
 func MicroService(s micro.Service) Option {
 	return func(o *Options) {
 		o.Service = s
-	}
-}
-
-// Flags sets the command flags.
-func Flags(flags ...cli.Flag) Option {
-	return func(o *Options) {
-		o.Flags = append(o.Flags, flags...)
-	}
-}
-
-// Action sets the command action.
-func Action(a func(*cli.Context)) Option {
-	return func(o *Options) {
-		o.Action = a
 	}
 }
 

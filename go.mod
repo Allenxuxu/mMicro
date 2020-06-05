@@ -11,7 +11,6 @@ require (
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd v0.0.0-20190719114852-fd7a80b32e1f // indirect
 	github.com/coreos/pkg v0.0.0-20180928190104-399ea9e2e55f // indirect
-	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/evanphx/json-patch/v5 v5.0.0
 	github.com/fsnotify/fsnotify v1.4.7
@@ -38,7 +37,6 @@ require (
 	github.com/konsorten/go-windows-terminal-sequences v1.0.2 // indirect
 	github.com/kr/text v0.2.0 // indirect
 	github.com/lucas-clemente/quic-go v0.14.1
-	github.com/micro/cli/v2 v2.1.2
 	github.com/miekg/dns v1.1.27
 	github.com/mitchellh/hashstructure v1.0.0
 	github.com/nats-io/nats-server/v2 v2.1.6 // indirect
