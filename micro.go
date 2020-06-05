@@ -30,34 +30,11 @@ type Service interface {
 	String() string
 }
 
-/*
-// Type Event is a future type for acting on asynchronous events
-type Event interface {
-	// Publish publishes a message to the event topic
-	Publish(ctx context.Context, msg interface{}, opts ...client.PublishOption) error
-	// Subscribe to the event
-	Subscribe(ctx context.Context, v in
-}
-
-// Resource is a future type for defining dependencies
-type Resource interface {
-	// Name of the resource
-	Name() string
-	// Type of resource
-	Type() string
-	// Method of creation
-	Create() error
-}
-*/
-
 // Event is used to publish messages to a topic
 type Event interface {
 	// Publish publishes a message to the event topic
 	Publish(ctx context.Context, msg interface{}, opts ...client.PublishOption) error
 }
-
-// Type alias to satisfy the deprecation
-type Publisher = Event
 
 type Option func(*Options)
 
@@ -87,11 +64,6 @@ func NewEvent(topic string, c client.Client) Event {
 		c = client.NewClient()
 	}
 	return &event{c, topic}
-}
-
-// Deprecated: NewPublisher returns a new Publisher
-func NewPublisher(topic string, c client.Client) Event {
-	return NewEvent(topic, c)
 }
 
 // RegisterHandler is syntactic sugar for registering a handler

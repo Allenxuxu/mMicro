@@ -58,7 +58,7 @@ func call(i int, c client.Client) {
 }
 
 // publishes a message
-func pub(p micro.Publisher) {
+func pub(p micro.Event) {
 	msg := &example.Message{
 		Say: "This is an async message",
 	}

@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/google/uuid"
 	"github.com/Allenxuxu/mMicro/logger"
+	"github.com/google/uuid"
 )
 
 // Service is a web service with service discovery built in
